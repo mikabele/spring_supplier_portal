@@ -1,6 +1,7 @@
 package com.example.demo.dto;
 
 import lombok.Data;
+import org.springframework.lang.Nullable;
 
 import java.util.Optional;
 
@@ -14,5 +15,5 @@ public class ProductCreateDto {
 
     private float price;
 
-    private Optional<String> description;
+    private String description;
 }

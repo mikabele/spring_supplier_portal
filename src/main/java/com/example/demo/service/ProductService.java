@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.domain.AttachmentDomain;
 import com.example.demo.dto.*;
 import com.example.demo.mapper.AttachmentMapper;
 import com.example.demo.mapper.CriteriaMapper;
@@ -21,8 +22,11 @@ import java.util.stream.StreamSupport;
 @Service
 public class ProductService {
 
+    @Autowired
     private ProductMapper productMapper;
+    @Autowired
     private CriteriaMapper criteriaMapper;
+    @Autowired
     private AttachmentMapper attachmentMapper;
 
     @Autowired
@@ -42,37 +46,37 @@ public class ProductService {
         return StreamSupport.stream(products.spliterator(), false).map(product -> productMapper.toDto(product)).collect(Collectors.toList());
     }
 
-    public Optional<UUID> addProduct(ProductCreateDto productCreateDto) {
+    public UUID addProduct(ProductCreateDto productCreateDto) {
         var productDomain = productMapper.fromCreateDto(productCreateDto);
-        var supplierDomain = supplierRepository.findById(productDomain.getSupplierId());
+        var supplierDomain = supplierRepository.findById(productDomain.getSupplier().getId());
         return supplierDomain.flatMap(supplier -> {
-            var categoryDomain = categoryRepository.findById(productDomain.getCategoryId());
-            return categoryDomain.flatMap(category -> {
-                var check = productRepository.findByNameAndSupplierId(productDomain.getName(), productDomain.getSupplierId());
+            var categoryDomain = categoryRepository.findById(productDomain.getCategory().getId());
+            return categoryDomain.map(category -> {
+                var check = productRepository.findByNameAndSupplierId(productDomain.getName(), productDomain.getSupplier().getId());
                 if (check.isEmpty()) {
-                    return Optional.of(productRepository.save(productDomain).getId());
+                    return productRepository.save(productDomain).getId();
                 } else {
-                    return Optional.empty();
+                    return null;
                 }
             });
-        });
+        }).orElse(null);
     }
 
-    public Optional<ProductReadDto> updateProduct(ProductUpdateDto productUpdateDto) {
+    public ProductReadDto updateProduct(ProductUpdateDto productUpdateDto) {
         var productDomain = productMapper.fromUpdateDto(productUpdateDto);
-        var supplierDomain = supplierRepository.findById(productDomain.getSupplierId());
+        var supplierDomain = supplierRepository.findById(productDomain.getSupplier().getId());
         return supplierDomain.flatMap(supplier -> {
-            var categoryDomain = categoryRepository.findById(productDomain.getCategoryId());
-            return categoryDomain.flatMap(category -> {
-                var check = productRepository.findByNameAndSupplierId(productDomain.getName(), productDomain.getSupplierId());
+            var categoryDomain = categoryRepository.findById(productDomain.getCategory().getId());
+            return categoryDomain.map(category -> {
+                var check = productRepository.findByNameAndSupplierId(productDomain.getName(), productDomain.getSupplier().getId());
                 if (check.isEmpty() && check.stream().allMatch(product -> product.getId() == productDomain.getId())) {
                     var res = productRepository.save(productDomain);
-                    return Optional.of(productMapper.toDto(res));
+                    return productMapper.toDto(res);
                 } else {
-                    return Optional.empty();
+                    return null;
                 }
             });
-        });
+        }).orElse(null);
     }
 
     public Integer deleteProduct(UUID id) {
@@ -85,18 +89,19 @@ public class ProductService {
 
     public List<ProductReadDto> searchByCriteria(CriteriaDto criteriaDto) {
         var criteriaDomain = criteriaMapper.fromDto(criteriaDto);
-        return productRepository.findByOptionalName(criteriaDomain).stream().map(product -> productMapper.toDto(product)).collect(Collectors.toList());
+        return productRepository
+                .searchByCriteria(criteriaDomain.getName(), criteriaDomain.getCategoryName(), criteriaDomain.getDescription(), criteriaDomain.getSupplierName(), criteriaDomain.getMinPrice(), criteriaDomain.getMaxPrice(), criteriaDomain.getStartDate(), criteriaDomain.getEndDate()).stream().map(product -> productMapper.toDto(product)).collect(Collectors.toList());
     }
 
-    public Optional<UUID> attach(AttachmentCreateDto attachmentCreateDto) {
+    public UUID attach(AttachmentCreateDto attachmentCreateDto) {
         var attachmentDomain = attachmentMapper.fromDto(attachmentCreateDto);
         var product = productRepository.findById(attachmentDomain.getProductId());
-        return product.flatMap(p -> {
-            if (!p.getAttachments().contains(attachmentDomain)) {
-                return Optional.of(attachmentRepository.save(attachmentDomain).getId());
+        return product.map(p -> {
+            if (!p.getAttachments().stream().map(AttachmentDomain::getAttachment).toList().contains(attachmentDomain.getAttachment())) {
+                return attachmentRepository.save(attachmentDomain).getId();
             } else
-                return Optional.empty();
-        });
+                return null;
+        }).orElse(null);
     }
 
     public Integer removeAttachment(UUID id) {

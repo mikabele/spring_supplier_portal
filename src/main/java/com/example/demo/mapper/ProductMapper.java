@@ -1,28 +1,32 @@
 package com.example.demo.mapper;
+
 import com.example.demo.domain.ProductDomain;
 import com.example.demo.domain.ProductStatus;
 import com.example.demo.dto.ProductCreateDto;
 import com.example.demo.dto.ProductReadDto;
 import com.example.demo.dto.ProductUpdateDto;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
-import org.mapstruct.NullValuePropertyMappingStrategy;
+import org.mapstruct.*;
 import org.springframework.context.annotation.Bean;
 
+import java.time.LocalDateTime;
+
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
-        uses = {}, imports = ProductStatus.class)
+        nullValueMappingStrategy = NullValueMappingStrategy.RETURN_DEFAULT,
+        uses = {AttachmentMapper.class, CategoryMapper.class, SupplierMapper.class}, imports = {ProductStatus.class, LocalDateTime.class})
 
 public interface ProductMapper {
-//    @Mappings({
-//            @Mapping(source = "name", target = "u.id"),
-//            @Mapping(source = "eventId", target = "event.id"),
-//            @Mapping(source = "orderStatus", target = "orderStatus", defaultExpression = "java(OrderStatus.CREATED)"),
-//            @Mapping(target = "overallPrice", constant = "0.0")
-//    })
+
+    @Mappings({
+            @Mapping(source = "categoryId", target = "category.id"),
+            @Mapping(source = "supplierId", target = "supplier.id")
+    })
     ProductDomain fromCreateDto(ProductCreateDto productCreateDto);
 
     ProductReadDto toDto(ProductDomain order);
 
+    @Mappings({
+            @Mapping(source = "categoryId", target = "category.id"),
+            @Mapping(source = "supplierId", target = "supplier.id")
+    })
     ProductDomain fromUpdateDto(ProductUpdateDto productUpdateDto);
 }

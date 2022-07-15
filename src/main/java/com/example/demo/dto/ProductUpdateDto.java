@@ -3,9 +3,11 @@ package com.example.demo.dto;
 import com.example.demo.domain.ProductStatus;
 import lombok.Data;
 
+import java.util.UUID;
+
 @Data
 public class ProductUpdateDto {
-    private String id;
+    private UUID id;
 
     private String name;
 

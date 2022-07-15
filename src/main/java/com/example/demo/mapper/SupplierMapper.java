@@ -1,17 +1,15 @@
 package com.example.demo.mapper;
 
-import com.example.demo.domain.CriteriaDomain;
-import com.example.demo.domain.ProductStatus;
-import com.example.demo.dto.CriteriaDto;
+import com.example.demo.domain.SupplierDomain;
+import com.example.demo.dto.SupplierDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValueMappingStrategy;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
         nullValueMappingStrategy = NullValueMappingStrategy.RETURN_DEFAULT)
-public interface CriteriaMapper {
+public interface SupplierMapper {
+    SupplierDto toDto(SupplierDomain domain);
 
-    CriteriaDto toDto (CriteriaDomain domain);
-
-    CriteriaDomain fromDto(CriteriaDto dto);
+    SupplierDomain fromDto(SupplierDto dto);
 }

@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.*;
+import com.example.demo.exception.BadRequestException;
 import com.example.demo.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,13 +21,19 @@ public class ProductController {
     }
 
     @PostMapping
-    public UUID addProduct(@RequestBody ProductCreateDto productCreateDto) {
-        return productService.addProduct(productCreateDto).orElseThrow();
+    public UUID addProduct(@RequestBody ProductCreateDto productCreateDto) throws Exception {
+        var res = productService.addProduct(productCreateDto) ;
+        if (res == null)
+            throw new BadRequestException();
+        return res;
     }
 
     @PutMapping
-    public ProductReadDto updateProduct(@RequestBody ProductUpdateDto productUpdateDto) {
-        return productService.updateProduct(productUpdateDto).orElseThrow();
+    public ProductReadDto updateProduct(@RequestBody ProductUpdateDto productUpdateDto) throws Exception {
+        var res =  productService.updateProduct(productUpdateDto);
+        if (res == null)
+            throw new BadRequestException();
+        return res;
     }
 
     @DeleteMapping("{id}")
@@ -40,12 +47,15 @@ public class ProductController {
     }
 
     @PostMapping("/attachment")
-    public UUID attachToProduct(@RequestBody AttachmentCreateDto attachmentCreateDto) {
-        return productService.attach(attachmentCreateDto).orElseThrow();
+    public UUID attachToProduct(@RequestBody AttachmentCreateDto attachmentCreateDto) throws Exception {
+        var res = productService.attach(attachmentCreateDto);
+        if (res == null)
+            throw new BadRequestException();
+        return res;
     }
 
     @DeleteMapping("/attachment/{id}")
-    public Integer removeAttachment(@RequestParam UUID id) {
+    public Integer removeAttachment(@PathVariable UUID id) {
         return productService.removeAttachment(id);
     }
 }

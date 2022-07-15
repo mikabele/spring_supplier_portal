@@ -7,13 +7,13 @@ import java.util.Optional;
 
 @Data
 public class CriteriaDomain {
-    private Optional<String> name = Optional.empty();
-    private Optional<String> categoryName = Optional.empty();
-    private Optional<String> description = Optional.empty();
-    private Optional<String> supplierName = Optional.empty();
-    private Optional<Float> minPrice = Optional.empty();
-    private Optional<Float> maxPrice = Optional.empty();
-    private Optional<LocalDateTime> startDate = Optional.empty();
-    private Optional<LocalDateTime> endDate = Optional.empty();
+    private String name;
+    private String categoryName;
+    private String description;
+    private String supplierName;
+    private Float minPrice;
+    private Float maxPrice;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
 
 }
