@@ -1,5 +1,6 @@
 package com.example.demo.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.lang.Nullable;
 
@@ -9,6 +10,7 @@ import java.math.BigDecimal;
 import java.util.Optional;
 
 @Data
+@AllArgsConstructor
 public class ProductCreateDto {
     @NotBlank
     private String name;
