@@ -33,3 +33,7 @@ build/
 .vscode/
 
 logs
+
+src/main/resources/application.properties
+
+.mvn
