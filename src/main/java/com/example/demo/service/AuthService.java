@@ -16,11 +16,10 @@ import java.util.Optional;
 @Service
 public class AuthService {
 
-    @Autowired
-    private AuthRepository authRepository;
+    private final AuthRepository authRepository;
 
-    public Optional<UserDomain> verifyLogin(User user) {
-        return authRepository.findByUsernameAndPassword(user.getUsername(), user.getPassword());
+    public AuthService(AuthRepository authRepository) {
+        this.authRepository = authRepository;
     }
 
     public Optional<UserDetails> findByUsername(String username) {

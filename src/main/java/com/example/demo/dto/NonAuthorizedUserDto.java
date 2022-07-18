@@ -2,8 +2,12 @@ package com.example.demo.dto;
 
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
+
 @Data
 public class NonAuthorizedUserDto {
-    private String username;
-    private String password;
+	@NotBlank
+	private String username;
+	@NotBlank
+	private String password;
 }

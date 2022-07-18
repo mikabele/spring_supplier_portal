@@ -20,7 +20,6 @@ public class JwtTokenUtil {
     private final Algorithm ALGORITHM = Algorithm.HMAC256(secretKey);
 
     public DecodedJWT decodeToken(final String accessToken) {
-        System.out.println(accessToken);
         JWTVerifier verifier = JWT.require(ALGORITHM).build();
         return verifier.verify(accessToken);
     }

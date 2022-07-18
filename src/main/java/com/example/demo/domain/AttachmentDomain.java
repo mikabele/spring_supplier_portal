@@ -15,5 +15,8 @@ public class AttachmentDomain {
     private UUID id;
 
     private String attachment;
-    private UUID productId;
+
+    @ManyToOne(targetEntity = ProductDomain.class)
+    @JoinColumn(name = "product_id",nullable = false)
+    private ProductDomain product;
 }

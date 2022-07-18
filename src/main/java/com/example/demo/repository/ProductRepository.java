@@ -3,10 +3,7 @@ package com.example.demo.repository;
 import com.example.demo.domain.ProductDomain;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
 
-import javax.validation.constraints.Null;
-import java.awt.print.Pageable;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;

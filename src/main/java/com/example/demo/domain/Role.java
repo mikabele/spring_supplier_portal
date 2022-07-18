@@ -1,7 +1,10 @@
 package com.example.demo.domain;
 
 public enum Role {
-    manager,
-    client,
-    courier
+	MANAGER, CLIENT, COURIER;
+
+	@Override
+	public String toString() {
+		return super.toString().toLowerCase();
+	}
 }

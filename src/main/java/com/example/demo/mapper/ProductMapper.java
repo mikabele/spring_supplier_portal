@@ -8,11 +8,12 @@ import com.example.demo.dto.ProductUpdateDto;
 import org.mapstruct.*;
 import org.springframework.context.annotation.Bean;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
         nullValueMappingStrategy = NullValueMappingStrategy.RETURN_DEFAULT,
-        uses = {AttachmentMapper.class, CategoryMapper.class, SupplierMapper.class}, imports = {ProductStatus.class, LocalDateTime.class})
+        uses = {AttachmentMapper.class, CategoryMapper.class, SupplierMapper.class}, imports = {ProductStatus.class, LocalDateTime.class, BigDecimal.class})
 
 public interface ProductMapper {
 

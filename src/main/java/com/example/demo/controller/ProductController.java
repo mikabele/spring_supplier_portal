@@ -1,61 +1,57 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.*;
-import com.example.demo.exception.BadRequestException;
 import com.example.demo.service.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/product")
 public class ProductController {
-    @Autowired
-    private ProductService productService;
+	private final ProductService productService;
 
-    @GetMapping
-    public List<ProductReadDto> viewProducts() {
-        return productService.viewProducts();
-    }
+	public ProductController(ProductService productService) {
+		this.productService = productService;
+	}
 
-    @PostMapping
-    public UUID addProduct(@RequestBody ProductCreateDto productCreateDto) throws Exception {
-        var res = productService.addProduct(productCreateDto) ;
-        if (res == null)
-            throw new BadRequestException();
-        return res;
-    }
+	@GetMapping
+	public List<ProductReadDto> viewProducts() {
+		return productService.viewProducts();
+	}
 
-    @PutMapping
-    public ProductReadDto updateProduct(@RequestBody ProductUpdateDto productUpdateDto) throws Exception {
-        var res =  productService.updateProduct(productUpdateDto);
-        if (res == null)
-            throw new BadRequestException();
-        return res;
-    }
+	@PostMapping
+	public ProductReadDto addProduct(@Valid @RequestBody ProductCreateDto productCreateDto) {
+		var res = productService.addProduct(productCreateDto);
+		return res;
+	}
 
-    @DeleteMapping("{id}")
-    public Integer deleteProduct(@PathVariable UUID id) {
-        return productService.deleteProduct(id);
-    }
+	@PutMapping
+	public ProductReadDto updateProduct(@Valid @RequestBody ProductUpdateDto productUpdateDto) {
+		var res = productService.updateProduct(productUpdateDto);
+		return res;
+	}
 
-    @GetMapping("/search")
-    public List<ProductReadDto> search(@RequestBody CriteriaDto criteriaDto) {
-        return productService.searchByCriteria(criteriaDto);
-    }
+	@DeleteMapping("{id}")
+	public void deleteProduct(@PathVariable UUID id) {
+		productService.deleteProduct(id);
+	}
 
-    @PostMapping("/attachment")
-    public UUID attachToProduct(@RequestBody AttachmentCreateDto attachmentCreateDto) throws Exception {
-        var res = productService.attach(attachmentCreateDto);
-        if (res == null)
-            throw new BadRequestException();
-        return res;
-    }
+	@GetMapping("/search")
+	public List<ProductReadDto> search(@RequestBody CriteriaDto criteriaDto) {
+		return productService.searchByCriteria(criteriaDto);
+	}
 
-    @DeleteMapping("/attachment/{id}")
-    public Integer removeAttachment(@PathVariable UUID id) {
-        return productService.removeAttachment(id);
-    }
+	@PostMapping("/attachment")
+	public AttachmentReadDto attachToProduct(@Valid @RequestBody AttachmentCreateDto attachmentCreateDto) {
+		var res = productService.attach(attachmentCreateDto);
+		return res;
+	}
+
+	@DeleteMapping("/attachment/{id}")
+	public void removeAttachment(@PathVariable UUID id) {
+		productService.removeAttachment(id);
+	}
 }

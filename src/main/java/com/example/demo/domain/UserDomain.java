@@ -1,6 +1,7 @@
 package com.example.demo.domain;
 
 
+import com.example.demo.util.RoleEnumConverter;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -14,7 +15,7 @@ public class UserDomain {
     private UUID id;
     private String name;
     private String surname;
-    @Enumerated(EnumType.STRING)
+   @Convert(converter = RoleEnumConverter.class)
     private Role role;
     private String phone;
     private String email;
