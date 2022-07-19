@@ -12,6 +12,7 @@ import com.example.demo.repository.AttachmentRepository;
 import com.example.demo.repository.CategoryRepository;
 import com.example.demo.repository.ProductRepository;
 import com.example.demo.repository.SupplierRepository;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @Service
+@Log4j2
 public class ProductService {
 
   private final ProductMapper productMapper;
@@ -64,6 +66,13 @@ public class ProductService {
     var check =
         productRepository.findByNameAndSupplierId(
             productDomain.getName(), productDomain.getSupplier().getId());
+    log.debug(
+        "Product with name "
+            + productDomain.getName()
+            + " and supplier id "
+            + productDomain.getSupplier().getId()
+            + " : "
+            + check);
     if (check.isPresent()) {
       throw new AlreadyExistsException(
           "Product with name "
@@ -79,12 +88,12 @@ public class ProductService {
     var supplierDomain = supplierRepository.findById(productDomain.getSupplier().getId());
     if (supplierDomain.isEmpty()) {
       throw new NotFoundException(
-              "Supplier with id " + productDomain.getSupplier().getId() + " not found.");
+          "Supplier with id " + productDomain.getSupplier().getId() + " not found.");
     }
     var categoryDomain = categoryRepository.findById(productDomain.getCategory().getId());
     if (categoryDomain.isEmpty()) {
       throw new NotFoundException(
-              "Category with id " + productDomain.getCategory().getId() + " not found.");
+          "Category with id " + productDomain.getCategory().getId() + " not found.");
     }
   }
 
@@ -95,6 +104,13 @@ public class ProductService {
     var check =
         productRepository.findByNameAndSupplierId(
             productDomain.getName(), productDomain.getSupplier().getId());
+    log.debug(
+        "Product with name "
+            + productDomain.getName()
+            + " and supplier id "
+            + productDomain.getSupplier().getId()
+            + " : "
+            + check);
     if (check.isPresent() && check.get().getId() != existingProduct.getId()) {
       throw new AlreadyExistsException(
           "Product with name "
@@ -140,6 +156,7 @@ public class ProductService {
     var product = findProductById(attachmentDomain.getProduct().getId());
     var attachments =
         product.getAttachments().stream().map(AttachmentDomain::getAttachment).toList();
+    log.debug("Product attachments : " + attachments);
     if (attachments.contains(attachmentDomain.getAttachment())) {
       throw new AlreadyExistsException(
           "Attachment with url "

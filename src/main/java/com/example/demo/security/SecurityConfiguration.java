@@ -72,8 +72,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .permitAll()
         // Our private endpoints
         .anyRequest()
-        .permitAll();
-    // .authenticated();
+        // .permitAll();
+        .authenticated();
 
     // Add JWT token filter
     http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);

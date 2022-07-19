@@ -138,7 +138,6 @@ public class ProductServiceTests {
     when(categoryRepository.findById(1)).thenReturn(Optional.of(new CategoryDomain()));
     when(supplierRepository.findById(1)).thenReturn(Optional.of(new SupplierDomain()));
     when(productRepository.save(any(ProductDomain.class))).thenReturn(product);
-    when(productRepository.findByNameAndSupplierId(eq("test"), eq(1))).thenReturn(Optional.empty());
     when(productRepository.findByNameAndSupplierId(not(eq("test")), any(Integer.class)))
         .thenReturn(Optional.of(new ProductDomain()));
 
