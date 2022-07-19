@@ -83,8 +83,12 @@ public class ProductService {
 			throw new MappingException("Product mapping error");
 		}
 		checkProductUniqueness(productDomain);
+		var existingProduct = productRepository.findById(productDomain.getId());
+		if (existingProduct.isEmpty()) {
+			throw  new NotFoundException("Product with id " + productDomain.getId() + " not found");
+		}
 		var check = productRepository.findByNameAndSupplierId(productDomain.getName(), productDomain.getSupplier().getId());
-		if (!((check.isEmpty() && check.stream().allMatch(product -> product.getId() == productDomain.getId())))) {
+		if (check.isPresent() && check.get().getId() != existingProduct.get().getId()) {
 			throw new AlreadyExistsException("Product with name " + productDomain.getName() + " and supplier id " + productDomain.getSupplier().getId() + " already exists");
 		}
 		var res = productRepository.save(productDomain);
