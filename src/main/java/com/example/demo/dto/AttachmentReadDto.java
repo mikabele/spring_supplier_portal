@@ -6,6 +6,6 @@ import java.util.UUID;
 
 @Data
 public class AttachmentReadDto {
-    private UUID id;
-    private String attachment;
+  private UUID id;
+  private String attachment;
 }

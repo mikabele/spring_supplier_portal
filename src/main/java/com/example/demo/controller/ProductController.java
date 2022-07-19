@@ -11,47 +11,48 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/product")
 public class ProductController {
-	private final ProductService productService;
+  private final ProductService productService;
 
-	public ProductController(ProductService productService) {
-		this.productService = productService;
-	}
+  public ProductController(ProductService productService) {
+    this.productService = productService;
+  }
 
-	@GetMapping
-	public List<ProductReadDto> viewProducts() {
-		return productService.viewProducts();
-	}
+  @GetMapping
+  public List<ProductReadDto> viewProducts() {
+    return productService.viewProducts();
+  }
 
-	@PostMapping
-	public ProductReadDto addProduct(@Valid @RequestBody ProductCreateDto productCreateDto) {
-		var res = productService.addProduct(productCreateDto);
-		return res;
-	}
+  @PostMapping
+  public ProductReadDto addProduct(@Valid @RequestBody ProductCreateDto productCreateDto) {
+    var res = productService.addProduct(productCreateDto);
+    return res;
+  }
 
-	@PutMapping
-	public ProductReadDto updateProduct(@Valid @RequestBody ProductUpdateDto productUpdateDto) {
-		var res = productService.updateProduct(productUpdateDto);
-		return res;
-	}
+  @PutMapping
+  public ProductReadDto updateProduct(@Valid @RequestBody ProductUpdateDto productUpdateDto) {
+    var res = productService.updateProduct(productUpdateDto);
+    return res;
+  }
 
-	@DeleteMapping("{id}")
-	public void deleteProduct(@PathVariable UUID id) {
-		productService.deleteProduct(id);
-	}
+  @DeleteMapping("{id}")
+  public void deleteProduct(@PathVariable UUID id) {
+    productService.deleteProduct(id);
+  }
 
-	@GetMapping("/search")
-	public List<ProductReadDto> search(@RequestBody CriteriaDto criteriaDto) {
-		return productService.searchByCriteria(criteriaDto);
-	}
+  @GetMapping("/search")
+  public List<ProductReadDto> search(@RequestBody CriteriaDto criteriaDto) {
+    return productService.searchByCriteria(criteriaDto);
+  }
 
-	@PostMapping("/attachment")
-	public AttachmentReadDto attachToProduct(@Valid @RequestBody AttachmentCreateDto attachmentCreateDto) {
-		var res = productService.attach(attachmentCreateDto);
-		return res;
-	}
+  @PostMapping("/attachment")
+  public AttachmentReadDto attachToProduct(
+      @Valid @RequestBody AttachmentCreateDto attachmentCreateDto) {
+    var res = productService.attach(attachmentCreateDto);
+    return res;
+  }
 
-	@DeleteMapping("/attachment/{id}")
-	public void removeAttachment(@PathVariable UUID id) {
-		productService.removeAttachment(id);
-	}
+  @DeleteMapping("/attachment/{id}")
+  public void removeAttachment(@PathVariable UUID id) {
+    productService.removeAttachment(id);
+  }
 }

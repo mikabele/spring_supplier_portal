@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -12,21 +13,17 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 public class ProductUpdateDto {
-    private UUID id;
+  @NotNull private UUID id;
 
-    @NotBlank
-    private String name;
+  @NotBlank private String name;
 
-    @Positive
-    private int categoryId;
+  @Positive private int categoryId;
 
-    @Positive
-    private int supplierId;
+  @Positive private int supplierId;
 
-    @Positive
-    private BigDecimal price;
+  @Positive private BigDecimal price;
 
-    private String description;
+  private String description;
 
-    private ProductStatus status;
+  private ProductStatus status;
 }

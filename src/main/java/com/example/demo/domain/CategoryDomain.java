@@ -10,7 +10,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "category")
 public class CategoryDomain {
-    @Id
-    private int id;
-    private String name;
+  @Id private int id;
+  private String name;
 }
