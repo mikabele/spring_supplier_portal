@@ -125,6 +125,7 @@ public class ProductService {
 
   private ProductDomain findProductById(UUID id) {
     var product = productRepository.findById(id);
+    log.info("Product " + product);
     if (product.isEmpty()) {
       throw new NotFoundException("Product with id " + id + " not found");
     }
@@ -153,10 +154,12 @@ public class ProductService {
 
   public AttachmentReadDto attach(AttachmentCreateDto attachmentCreateDto) {
     var attachmentDomain = attachmentMapper.fromDto(attachmentCreateDto);
+    log.info("Mapping finished");
     var product = findProductById(attachmentDomain.getProduct().getId());
+    log.info("Product : " + product);
     var attachments =
         product.getAttachments().stream().map(AttachmentDomain::getAttachment).toList();
-    log.debug("Product attachments : " + attachments);
+    log.info("Product attachments : " + attachments);
     if (attachments.contains(attachmentDomain.getAttachment())) {
       throw new AlreadyExistsException(
           "Attachment with url "

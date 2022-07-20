@@ -2,6 +2,7 @@ package com.example.demo.domain;
 
 import com.example.demo.util.ProductStatusEnumConverter;
 import lombok.Data;
+import lombok.ToString;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -42,6 +43,7 @@ public class ProductDomain {
 
   private LocalDateTime publicationDate;
 
-  @OneToMany(targetEntity = AttachmentDomain.class, mappedBy = "product", fetch = FetchType.EAGER)
+  @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @ToString.Exclude
   private List<AttachmentDomain> attachments;
 }

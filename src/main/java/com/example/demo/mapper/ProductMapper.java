@@ -10,13 +10,14 @@ import org.mapstruct.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Mapper(
     componentModel = "spring",
     nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
     nullValueMappingStrategy = NullValueMappingStrategy.RETURN_DEFAULT,
     uses = {AttachmentMapper.class, CategoryMapper.class, SupplierMapper.class},
-    imports = {ProductStatus.class, LocalDateTime.class, BigDecimal.class},
+    imports = {ProductStatus.class, LocalDateTime.class, BigDecimal.class, UUID.class},
     unexpectedValueMappingException = MappingException.class)
 public interface ProductMapper {
 
@@ -29,6 +30,7 @@ public interface ProductMapper {
   ProductReadDto toDto(ProductDomain order);
 
   @Mappings({
+    @Mapping(target = "id", expression = "java(UUID.fromString(productUpdateDto.getId()))"),
     @Mapping(source = "categoryId", target = "category.id"),
     @Mapping(source = "supplierId", target = "supplier.id")
   })

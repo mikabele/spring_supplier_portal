@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 
@@ -12,11 +13,11 @@ import java.math.BigDecimal;
 public class ProductCreateDto {
   @NotBlank private String name;
 
-  @Positive private int categoryId;
+  @NotNull @Positive private int categoryId;
 
-  @Positive private int supplierId;
+  @NotNull @Positive private int supplierId;
 
-  @Positive private BigDecimal price;
+  @NotNull @Positive private BigDecimal price;
 
   private String description;
 }

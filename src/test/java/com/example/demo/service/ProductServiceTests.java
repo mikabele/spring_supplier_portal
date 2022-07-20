@@ -143,7 +143,13 @@ public class ProductServiceTests {
 
     ProductUpdateDto productUpdateDto =
         new ProductUpdateDto(
-            product.getId(), "test", 1, 1, BigDecimal.ONE, "test update", ProductStatus.AVAILABLE);
+            product.getId().toString(),
+            "test",
+            1,
+            1,
+            BigDecimal.ONE,
+            "test update",
+            ProductStatus.AVAILABLE);
     assertThat(
         productService.updateProduct(productUpdateDto),
         Matchers.equalTo(productMapper.toDto(product)));
@@ -156,7 +162,7 @@ public class ProductServiceTests {
     when(categoryRepository.findById(1)).thenReturn(Optional.of(new CategoryDomain()));
     when(supplierRepository.findById(1)).thenReturn(Optional.of(new SupplierDomain()));
 
-    var wrongId = UUID.randomUUID();
+    var wrongId = UUID.randomUUID().toString();
 
     ProductUpdateDto productUpdateDto =
         new ProductUpdateDto(
@@ -180,7 +186,7 @@ public class ProductServiceTests {
 
     ProductUpdateDto productUpdateDto =
         new ProductUpdateDto(
-            product.getId(),
+            product.getId().toString(),
             "test duplicated",
             1,
             1,
@@ -224,7 +230,7 @@ public class ProductServiceTests {
     product.setAttachments(List.of());
     when(productRepository.findById(eq(product.getId()))).thenReturn(Optional.of(product));
 
-    var attachmentDto = new AttachmentCreateDto("test url", product.getId());
+    var attachmentDto = new AttachmentCreateDto("test url", product.getId().toString());
 
     assertDoesNotThrow(() -> productService.attach(attachmentDto));
   }
@@ -235,7 +241,7 @@ public class ProductServiceTests {
     product.setAttachments(List.of());
     when(productRepository.findById(not(eq(product.getId())))).thenReturn(Optional.empty());
 
-    var wrongId = UUID.randomUUID();
+    var wrongId = UUID.randomUUID().toString();
     var attachmentDto = new AttachmentCreateDto("test url", wrongId);
 
     Throwable e = assertThrows(NotFoundException.class, () -> productService.attach(attachmentDto));
@@ -251,7 +257,7 @@ public class ProductServiceTests {
     product.setAttachments(List.of(attachment));
     when(productRepository.findById(eq(product.getId()))).thenReturn(Optional.of(product));
 
-    var attachmentDto = new AttachmentCreateDto("test url", product.getId());
+    var attachmentDto = new AttachmentCreateDto("test url", product.getId().toString());
 
     Throwable e =
         assertThrows(AlreadyExistsException.class, () -> productService.attach(attachmentDto));

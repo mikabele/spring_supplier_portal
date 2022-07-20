@@ -16,7 +16,7 @@ public class AttachmentDomain {
 
   private String attachment;
 
-  @ManyToOne(targetEntity = ProductDomain.class)
+  @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "product_id", nullable = false)
   private ProductDomain product;
 }
