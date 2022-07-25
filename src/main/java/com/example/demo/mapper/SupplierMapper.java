@@ -6,10 +6,12 @@ import org.mapstruct.Mapper;
 import org.mapstruct.NullValueMappingStrategy;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
-@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
-        nullValueMappingStrategy = NullValueMappingStrategy.RETURN_DEFAULT)
+@Mapper(
+    componentModel = "spring",
+    nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
+    nullValueMappingStrategy = NullValueMappingStrategy.RETURN_DEFAULT)
 public interface SupplierMapper {
-    SupplierDto toDto(SupplierDomain domain);
+  SupplierDto toDto(SupplierDomain domain);
 
-    SupplierDomain fromDto(SupplierDto dto);
+  SupplierDomain fromDto(SupplierDto dto);
 }

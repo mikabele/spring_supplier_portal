@@ -1,20 +1,24 @@
 package com.example.demo.mapper;
 
 import com.example.demo.domain.AttachmentDomain;
-import com.example.demo.domain.CriteriaDomain;
 import com.example.demo.dto.AttachmentCreateDto;
 import com.example.demo.dto.AttachmentReadDto;
-import com.example.demo.dto.CriteriaDto;
-import org.mapstruct.BeanMapping;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mappings;
-import org.mapstruct.NullValuePropertyMappingStrategy;
-import org.springframework.context.annotation.Bean;
-import org.springframework.web.bind.annotation.Mapping;
+import org.mapstruct.*;
 
-@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+import java.util.UUID;
+
+@Mapper(
+    componentModel = "spring",
+    nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
+    nullValueMappingStrategy = NullValueMappingStrategy.RETURN_DEFAULT,
+    imports = {UUID.class})
 public interface AttachmentMapper {
-    AttachmentReadDto toDto (AttachmentDomain domain);
+  AttachmentReadDto toDto(AttachmentDomain domain);
 
-    AttachmentDomain fromDto(AttachmentCreateDto dto);
+  @Mappings({
+    @Mapping(
+        target = "product.id",
+        expression = "java(UUID.fromString(attachmentCreateDto.getProductId()))")
+  })
+  AttachmentDomain fromDto(AttachmentCreateDto attachmentCreateDto);
 }

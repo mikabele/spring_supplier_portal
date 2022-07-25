@@ -7,7 +7,5 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface AuthRepository extends CrudRepository<UserDomain, UUID> {
-    Optional<UserDomain> findByUsernameAndPassword(String username, String password);
-
-    Optional<UserDomain> findByUsername(String username);
+  Optional<UserDomain> findByUsername(String username);
 }

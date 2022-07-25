@@ -1,19 +1,23 @@
 package com.example.demo.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.lang.Nullable;
 
-import java.util.Optional;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+import java.math.BigDecimal;
 
 @Data
+@AllArgsConstructor
 public class ProductCreateDto {
-    private String name;
+  @NotBlank private String name;
 
-    private int categoryId;
+  @NotNull @Positive private int categoryId;
 
-    private int supplierId;
+  @NotNull @Positive private int supplierId;
 
-    private float price;
+  @NotNull @Positive private BigDecimal price;
 
-    private String description;
+  private String description;
 }

@@ -10,8 +10,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "supplier")
 public class SupplierDomain {
-    @Id
-    private Integer id;
-    private String name;
-    private String address;
+  @Id private Integer id;
+  private String name;
+  private String address;
 }

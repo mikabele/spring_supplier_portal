@@ -10,10 +10,13 @@ import java.util.UUID;
 @Table(name = "attachment")
 public class AttachmentDomain {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private UUID id;
 
-    private String attachment;
-    private UUID productId;
+  private String attachment;
+
+  @ManyToOne(fetch = FetchType.LAZY, optional = false)
+  @JoinColumn(name = "product_id", nullable = false)
+  private ProductDomain product;
 }
