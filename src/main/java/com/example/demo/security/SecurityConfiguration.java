@@ -71,9 +71,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .antMatchers("/api/login")
         .permitAll()
         // Our private endpoints
-        .anyRequest()
+            .antMatchers("/api/**")
         // .permitAll();
-        .authenticated();
+        .authenticated()
+            .anyRequest()
+            .permitAll();
 
     // Add JWT token filter
     http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);

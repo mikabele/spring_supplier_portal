@@ -1,5 +1,6 @@
 package com.example.demo.security;
 
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.demo.service.AuthService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -40,7 +41,14 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     }
     // Get jwt token and validate
     final String token = header.split(" ")[1].trim();
-    var res = jwtTokenUtil.decodeToken(token);
+    DecodedJWT res = null;
+    try {
+      res = jwtTokenUtil.decodeToken(token);
+    }
+    catch (Exception ex) {
+      chain.doFilter(request, response);
+      return;
+    }
     if (res.getToken() == null) {
       chain.doFilter(request, response);
       return;
